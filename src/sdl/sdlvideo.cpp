@@ -116,6 +116,7 @@ static MiniModeInfo WinModes[] =
 {
 	{ 320, 200 },
 	{ 320, 240 },
+#ifndef GCW0
 	{ 400, 225 },	// 16:9
 	{ 400, 300 },
 	{ 480, 270 },	// 16:9
@@ -151,6 +152,7 @@ static MiniModeInfo WinModes[] =
 	{ 1600, 1000 },	// 16:10
 	{ 1600, 1200 },
 	{ 1920, 1080 },
+#endif
 };
 
 static cycle_t BlitCycles;
