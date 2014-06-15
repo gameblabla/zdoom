@@ -7,7 +7,7 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <pwd.h>
-#if !defined(__sun)
+#if !defined(__sun) && !defined(GCW0)
 #include <fts.h>
 #endif
 #endif

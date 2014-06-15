@@ -1952,10 +1952,12 @@ static void D_DoomInit()
 	// might crop up if we leave it alone.
 #if defined(_FPU_GETCW)
 	{
+#ifndef GCW0
 		int cw;
 		_FPU_GETCW(cw);
 		cw = (cw & ~_FPU_EXTENDED) | _FPU_DOUBLE;
 		_FPU_SETCW(cw);
+#endif
 	}
 #elif defined(_PC_53)
 // On the x64 architecture, changing the floating point precision is not supported.

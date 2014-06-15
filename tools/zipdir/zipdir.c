@@ -36,7 +36,7 @@
 #define stat _stat
 #else
 #include <dirent.h>
-#if !defined(__sun)
+#if !defined(__sun) && !defined(GCW0)
 #include <fts.h>
 #endif
 #endif
@@ -489,7 +489,7 @@ dir_tree_t *add_dirs(char **argv)
 	return trees;
 }
 
-#elif defined(__sun)
+#elif defined(__sun) || defined(GCW0)
 
 //==========================================================================
 //

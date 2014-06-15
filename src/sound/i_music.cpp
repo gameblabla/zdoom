@@ -44,7 +44,9 @@
 #include <fcntl.h>
 #include <signal.h>
 #include <unistd.h>
+#ifndef GCW0
 #include <wordexp.h>
+#endif
 #include <stdio.h>
 #include "mus2midi.h"
 #define FALSE 0

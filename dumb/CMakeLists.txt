@@ -101,6 +101,6 @@ add_library( dumb
     src/it/xmeffect.c )
 target_link_libraries( dumb )
 
-if( "${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" )
+if( ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang") AND NOT GCW0)
 	set_source_files_properties( src/it/filter.cpp PROPERTIES COMPILE_FLAGS -msse )
-endif( "${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" )
+endif( ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")  AND NOT GCW0)

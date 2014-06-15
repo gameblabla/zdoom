@@ -52,7 +52,7 @@
 #endif
 #if defined(__APPLE__)
 #define _msize(p)				malloc_size(p)
-#elif defined(__sun)
+#elif defined(__sun) || defined(GCW0)
 #define _msize(p)				(*((size_t*)(p)-1))
 #elif !defined(_WIN32)
 #define _msize(p)				malloc_usable_size(p)	// from glibc/FreeBSD

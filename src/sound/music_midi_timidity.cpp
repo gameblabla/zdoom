@@ -8,13 +8,18 @@
 
 #include <sys/types.h>
 #include <sys/wait.h>
+#ifndef GCW0
 #include <wordexp.h>
+#endif
 #include <signal.h>
 
 int ChildQuit;
 
 void ChildSigHandler (int signum)
 {
+#ifdef GCW0
+	return;
+#endif
 	ChildQuit = waitpid (-1, NULL, WNOHANG);
 }
 #endif
@@ -39,6 +44,9 @@ CVAR (Bool, timidity_byteswap, false, CVAR_ARCHIVE|CVAR_GLOBALCONFIG)
 // added because Timidity's output is rather loud.
 CUSTOM_CVAR (Float, timidity_mastervolume, 1.0f, CVAR_ARCHIVE|CVAR_GLOBALCONFIG)
 {
+#ifdef GCW0
+	return;
+#endif
 	if (self < 0.f)
 		self = 0.f;
 	else if (self > 4.f)
@@ -49,6 +57,9 @@ CUSTOM_CVAR (Float, timidity_mastervolume, 1.0f, CVAR_ARCHIVE|CVAR_GLOBALCONFIG)
 
 CUSTOM_CVAR (Int, timidity_pipe, 90, CVAR_ARCHIVE|CVAR_GLOBALCONFIG)
 { // pipe size in ms
+#ifdef GCW0
+	return;
+#endif
 	if (timidity_pipe < 0)
 	{ // a negative size makes no sense
 		timidity_pipe = 0;
@@ -57,6 +68,9 @@ CUSTOM_CVAR (Int, timidity_pipe, 90, CVAR_ARCHIVE|CVAR_GLOBALCONFIG)
 
 CUSTOM_CVAR (Int, timidity_frequency, 22050, CVAR_ARCHIVE|CVAR_GLOBALCONFIG)
 { // Clamp frequency to Timidity's limits
+#ifdef GCW0
+	return;
+#endif
 	if (self < 4000)
 		self = 4000;
 	else if (self > 65000)
@@ -79,6 +93,9 @@ TimidityPPMIDIDevice::TimidityPPMIDIDevice()
 	  ChildProcess(-1)
 #endif
 {
+#ifdef GCW0
+	return;
+#endif
 #ifndef _WIN32
 	WavePipe[0] = WavePipe[1] = -1;
 #endif
@@ -98,6 +115,9 @@ TimidityPPMIDIDevice::TimidityPPMIDIDevice()
 
 TimidityPPMIDIDevice::~TimidityPPMIDIDevice ()
 {
+#ifdef GCW0
+	return;
+#endif
 #if _WIN32
 	if (WriteWavePipe != INVALID_HANDLE_VALUE)
 	{
@@ -131,6 +151,9 @@ TimidityPPMIDIDevice::~TimidityPPMIDIDevice ()
 
 bool TimidityPPMIDIDevice::Preprocess(MIDIStreamer *song, bool looping)
 {
+#ifdef GCW0
+	return 0;
+#endif
 	TArray<BYTE> midi;
 	bool success;
 	FILE *f;
@@ -171,6 +194,9 @@ bool TimidityPPMIDIDevice::Preprocess(MIDIStreamer *song, bool looping)
 
 int TimidityPPMIDIDevice::Open(void (*callback)(unsigned int, void *, DWORD, DWORD), void *userdata)
 {
+#ifdef GCW0
+	return 0;
+#endif
 	int pipeSize;
 
 #ifdef _WIN32
@@ -276,6 +302,9 @@ int TimidityPPMIDIDevice::Open(void (*callback)(unsigned int, void *, DWORD, DWO
 #ifdef _WIN32
 bool TimidityPPMIDIDevice::ValidateTimidity()
 {
+#ifdef GCW0
+	return 0;
+#endif
 	char foundPath[MAX_PATH];
 	char *filePart;
 	DWORD pathLen;
@@ -366,6 +395,9 @@ bool TimidityPPMIDIDevice::ValidateTimidity()
 
 bool TimidityPPMIDIDevice::LaunchTimidity ()
 {
+#ifdef GCW0
+	return 0;
+#endif
 	if (CommandLine.IsEmpty())
 	{
 		return false;
@@ -433,6 +465,7 @@ bool TimidityPPMIDIDevice::LaunchTimidity ()
 	}
 	
 	int forkres;
+#ifndef GCW0
 	wordexp_t words;
 
 	switch (wordexp (CommandLine.GetChars(), &words, 0))
@@ -480,6 +513,7 @@ bool TimidityPPMIDIDevice::LaunchTimidity ()
 	wordfree (&words);
 	return ChildProcess != -1;
 #endif // _WIN32
+#endif // GCW0
 }
 
 //==========================================================================
@@ -490,6 +524,9 @@ bool TimidityPPMIDIDevice::LaunchTimidity ()
 
 bool TimidityPPMIDIDevice::FillStream(SoundStream *stream, void *buff, int len, void *userdata)
 {
+#ifdef GCW0
+	return 0;
+#endif
 	TimidityPPMIDIDevice *song = (TimidityPPMIDIDevice *)userdata;
 	
 #ifdef _WIN32
@@ -561,6 +598,9 @@ bool TimidityPPMIDIDevice::FillStream(SoundStream *stream, void *buff, int len, 
 
 void TimidityPPMIDIDevice::TimidityVolumeChanged()
 {
+#ifdef GCW0
+	return;
+#endif
 	if (Stream != NULL)
 	{
 		Stream->SetVolume(timidity_mastervolume);
@@ -575,6 +615,9 @@ void TimidityPPMIDIDevice::TimidityVolumeChanged()
 
 bool TimidityPPMIDIDevice::IsOpen() const
 {
+#ifdef GCW0
+	return 0;
+#endif
 #ifdef _WIN32
 	if (ChildProcess != INVALID_HANDLE_VALUE)
 	{
@@ -604,6 +647,9 @@ bool TimidityPPMIDIDevice::IsOpen() const
 
 int TimidityPPMIDIDevice::Resume()
 {
+#ifdef GCW0
+	return 0;
+#endif
 	if (!Started)
 	{
 		if (LaunchTimidity())
@@ -628,6 +674,9 @@ int TimidityPPMIDIDevice::Resume()
 
 void TimidityPPMIDIDevice::Stop ()
 {
+#ifdef GCW0
+	return;
+#endif
 	if (Started)
 	{
 		if (Stream != NULL)
