@@ -17,7 +17,7 @@ else( MSVC )
 			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/lempar.c ${CMAKE_CURRENT_BINARY_DIR} )
 	else ( NOT GCW0 )
 		add_custom_target(lemon
-							COMMAND cp -v ${GCW0_FILES}/linux32-tools/lemon ${CMAKE_CURRENT_BINARY_DIR}
+							COMMAND cp -v ${GCW0_FILES}/linux32-tools/lemon ${CMAKE_CURRENT_SOURCE_DIR}/lempar.c ${CMAKE_CURRENT_BINARY_DIR}
 							DEPENDS ${GCW0_FILES}/linux32-tools/lemon )
 		set_target_properties(lemon
 							PROPERTIES LOCATION ${CMAKE_CURRENT_BINARY_DIR}/lemon )
