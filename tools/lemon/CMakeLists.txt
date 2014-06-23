@@ -11,7 +11,15 @@ add_custom_command( TARGET lemon
 	COMMAND echo $<TARGET_FILE_DIR:lemon>
 	COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/lempar.c $<TARGET_FILE_DIR:lemon> )	
 else( MSVC )
-add_custom_command( TARGET lemon
-	POST_BUILD
-	COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/lempar.c ${CMAKE_CURRENT_BINARY_DIR} )
+	if ( NOT GCW0 )
+		add_custom_command( TARGET lemon
+			POST_BUILD
+			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/lempar.c ${CMAKE_CURRENT_BINARY_DIR} )
+	else ( NOT GCW0 )
+		add_custom_target(lemon
+							COMMAND cp -v ${GCW0_FILES}/linux32-tools/lemon ${CMAKE_CURRENT_BINARY_DIR}
+							DEPENDS ${GCW0_FILES}/linux32-tools/lemon )
+		set_target_properties(lemon
+							PROPERTIES LOCATION ${CMAKE_CURRENT_BINARY_DIR}/lemon )
+	endif ( NOT GCW0 )
 endif( MSVC )

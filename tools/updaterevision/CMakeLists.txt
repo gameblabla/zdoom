@@ -17,7 +17,15 @@ if( WIN32 )
 	endif( "${CMAKE_C_COMPILER_ID}" STREQUAL "GNU" OR "${CMAKE_C_COMPILER_ID}" STREQUAL "Clang" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU" OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang" )
 endif( WIN32 )
 
+if ( NOT GCW0 )
 add_executable( updaterevision updaterevision.c ${TRUSTINFO} )
+else ( NOT GCW0 )
+	add_custom_target(updaterevision
+						COMMAND cp -v ${GCW0_FILES}/linux32-tools/updaterevision ${CMAKE_CURRENT_BINARY_DIR}
+						DEPENDS ${GCW0_FILES}/linux32-tools/updaterevision )
+	set_target_properties(updaterevision
+						PROPERTIES LOCATION ${CMAKE_CURRENT_BINARY_DIR}/updaterevision )
+endif ( NOT GCW0 )
 
 if( MT_MERGE )
 	get_target_property( UPDATEREVISION_EXE updaterevision LOCATION )

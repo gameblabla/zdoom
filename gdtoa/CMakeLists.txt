@@ -30,6 +30,13 @@ if( NOT MSVC  AND NOT GCW0)
 	set( GEN_FP_DEPS ${CMAKE_CURRENT_BINARY_DIR}/arith.h ${CMAKE_CURRENTY_BINARY_DIR}/gd_qnan.h )
 endif( NOT MSVC AND NOT GCW0 )
 
+if ( GCW0 )
+	file (COPY ${GCW0_FILES}/arith.h ${GCW0_FILES}/gd_qnan.h DESTINATION ${CMAKE_CURRENT_BINARY_DIR} )
+	#add_custom_target(copy
+	#					COMMAND cp -v ${CMAKE_SOURCE_DIR}/gcw-zero/arith.h ${CMAKE_SOURCE_DIR}/gcw-zero/gd_qnan.h ${CMAKE_CURRENT_BINARY_DIR}
+	#					DEPENDS ${CMAKE_SOURCE_DIR}/gcw-zero/arith.h ${CMAKE_SOURCE_DIR}/gcw-zero/gd_qnan.h )
+endif ( GCW0 )
+
 add_library( gdtoa
 	${GEN_FP_FILES}
 	dmisc.c

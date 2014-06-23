@@ -20,13 +20,21 @@ configure_file( ${CMAKE_CURRENT_SOURCE_DIR}/config.h.in ${CMAKE_CURRENT_BINARY_D
 include_directories( ${CMAKE_CURRENT_BINARY_DIR} )
 add_definitions( -DHAVE_CONFIG_H )
 
-add_executable( re2c
-	actions.cc
-	code.cc
-	dfa.cc
-	main.cc
-	mbo_getopt.cc
-	parser.cc
-	scanner.cc
-	substr.cc
-	translate.cc )
+if ( NOT GCW0 )
+	add_executable( re2c
+		actions.cc
+		code.cc
+		dfa.cc
+		main.cc
+		mbo_getopt.cc
+		parser.cc
+		scanner.cc
+		substr.cc
+		translate.cc )
+else ( NOT GCW0 )
+		add_custom_target(re2c
+							COMMAND cp -v ${GCW0_FILES}/linux32-tools/re2c ${CMAKE_CURRENT_BINARY_DIR}
+							DEPENDS ${GCW0_FILES}/linux32-tools/re2c )
+		set_target_properties(re2c
+							PROPERTIES LOCATION ${CMAKE_CURRENT_BINARY_DIR}/re2c )
+endif ( NOT GCW0 )

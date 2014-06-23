@@ -7,8 +7,9 @@ SET(CMAKE_CXX_COMPILER "/opt/gcw0-toolchain/usr/bin/mipsel-gcw0-linux-uclibc-g++
 SET(CMAKE_RANLIB "/opt/gcw0-toolchain/usr/bin/mipsel-gcw0-linux-uclibc-ranlib")
 SET(CMAKE_LINKER "/opt/gcw0-toolchain/usr/bin/mipsel-gcw0-linux-uclibc-ld")
 
-add_definitions( -DGCW0 )
-set( GCW0 TRUE )
+add_definitions(-DGCW0)
+set(GCW0 TRUE)
+set(GCW0_FILES ${CMAKE_SOURCE_DIR}/gcw-zero) 
 
 # here is the target environment located
 SET(CMAKE_FIND_ROOT_PATH  /opt/gcw0-toolchain/usr/mipsel-gcw0-linux-uclibc/sysroot)
