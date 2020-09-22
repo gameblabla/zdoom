@@ -2549,6 +2549,9 @@ void G_DoPlayDemo (void)
 {
 	char mapname[9];
 	int demolump;
+	
+	// Gameblabla - This crashes the device for some reason. I don't want to debug this so let's disable demos for now. Game itself runs fine.
+	return;
 
 	gameaction = ga_nothing;
 
