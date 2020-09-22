@@ -5,7 +5,7 @@
 * bot need to work             *
 *******************************/
 
-#include <stdlib.h>
+#include <cstdlib>
 
 #include "doomtype.h"
 #include "doomdef.h"
@@ -124,7 +124,7 @@ bool FCajunMaster::Check_LOS (AActor *from, AActor *to, angle_t vangle)
 	if (vangle == 0)
 		return false; //Looker seems to be blind.
 
-	return (angle_t)abs (R_PointToAngle2 (from->x, from->y, to->x, to->y) - from->angle) <= vangle/2;
+	return absangle (R_PointToAngle2 (from->x, from->y, to->x, to->y) - (from->angle)) <= vangle/2;
 }
 
 //-------------------------------------
@@ -213,7 +213,7 @@ void FCajunMaster::Dofire (AActor *actor, ticcmd_t *cmd)
 			{
 				actor->player->angle = an;
 				//have to be somewhat precise. to avoid suicide.
-				if (abs (actor->player->angle - actor->angle) < 12*ANGLE_1)
+				if (absangle (actor->player->angle - actor->angle) < 12*ANGLE_1)
 				{
 					actor->player->t_rocket = 9;
 					no_fire = false;
@@ -255,7 +255,7 @@ shootmissile:
 				actor->player->angle -= m;
 		}
 
-		if (abs (actor->player->angle - actor->angle) < 4*ANGLE_1)
+		if (absangle (actor->player->angle - actor->angle) < 4*ANGLE_1)
 		{
 			inc[actor->id] = !inc[actor->id];
 		}
@@ -548,7 +548,7 @@ angle_t FCajunMaster::FireRox (AActor *bot, AActor *enemy, ticcmd_t *cmd)
 	return 0;
 }
 
-// [RH] We absolutely do not want to pick things up here. The bot code is
+// [RH] We absangleolutely do not want to pick things up here. The bot code is
 // executed apart from all the other simulation code, so we don't want it
 // creating side-effects during gameplay.
 bool FCajunMaster::SafeCheckPosition (AActor *actor, fixed_t x, fixed_t y, FCheckPosition &tm)
