@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=ZDoom
+Comment=ZDoom Engine (port gameblabla)
+MimeType=application/octet-stream;
+Exec=run_zdoom.sh %f
+Terminal=false
+Type=Application
+StartupNotify=true
+Icon=zdoom
+Categories=games

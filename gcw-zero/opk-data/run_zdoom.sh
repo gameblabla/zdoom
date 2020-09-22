@@ -5,4 +5,4 @@
 #./zdoom -iwad ${FILE}
 
 cd `dirname $0`
-./zdoom -iwad $1
+./zdoom -iwad "$1"

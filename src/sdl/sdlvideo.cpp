@@ -85,7 +85,7 @@ EXTERN_CVAR (Bool, cl_capfps)
 
 // PUBLIC DATA DEFINITIONS -------------------------------------------------
 
-CVAR (Int, vid_displaybits, 8, CVAR_ARCHIVE|CVAR_GLOBALCONFIG)
+CVAR (Int, vid_displaybits, 16, CVAR_ARCHIVE|CVAR_GLOBALCONFIG)
 
 CUSTOM_CVAR (Float, rgamma, 1.f, CVAR_ARCHIVE|CVAR_GLOBALCONFIG)
 {
@@ -114,7 +114,7 @@ CUSTOM_CVAR (Float, bgamma, 1.f, CVAR_ARCHIVE|CVAR_GLOBALCONFIG)
 // Dummy screen sizes to pass when windowed
 static MiniModeInfo WinModes[] =
 {
-	{ 320, 200 },
+	/*{ 320, 200 },*/
 	{ 320, 240 },
 #ifndef GCW0
 	{ 400, 225 },	// 16:9
@@ -301,11 +301,14 @@ SDLFB::SDLFB (int width, int height, bool fullscreen)
 	NeedPalUpdate = false;
 	NeedGammaUpdate = false;
 	UpdatePending = false;
-	NotPaletted = false;
+	NotPaletted = true;
 	FlashAmount = 0;
 	
-	Screen = SDL_SetVideoMode (width, height, vid_displaybits,
-		SDL_HWSURFACE|SDL_HWPALETTE|SDL_DOUBLEBUF|SDL_ANYFORMAT|
+	Screen = SDL_SetVideoMode (width, height, 16,
+		SDL_HWSURFACE|
+#ifdef SDL_TRIPLEBUF
+		SDL_TRIPLEBUF|
+#endif
 		(fullscreen ? SDL_FULLSCREEN : 0));
 
 	if (Screen == NULL)
@@ -315,7 +318,7 @@ SDLFB::SDLFB (int width, int height, bool fullscreen)
 	{
 		GammaTable[0][i] = GammaTable[1][i] = GammaTable[2][i] = i;
 	}
-	if (Screen->format->palette == NULL)
+	if (Screen->format->palette == NULL || NotPaletted == true)
 	{
 		NotPaletted = true;
 		GPfx.SetFormat (Screen->format->BitsPerPixel,
